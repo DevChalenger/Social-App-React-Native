@@ -1,7 +1,10 @@
 import * as React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import { Image, Text, View } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import About from "./src/screens/About";
 import Home from "./src/screens/Home";
@@ -12,9 +15,9 @@ import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
+import Header from "./src/components/Header";
 
-const Stack = createNativeStackNavigator();
-
+const Tab = createBottomTabNavigator();
 const persistor = persistStore(store);
 
 const App = () => {
@@ -22,14 +25,33 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="About" component={About} />
-            {/*   <Stack.Screen name="ForgotPassword" component={} />
-        <Stack.Screen name="" component={} /> */}
-          </Stack.Navigator>
+          <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              tabBarActiveTintColor: "#e91e63",
+            }}
+          >
+            <Tab.Screen
+              name="Home"
+              component={Home}
+              options={{ headerTitle: Header }}
+            />
+            <Tab.Screen
+              name="Login"
+              component={Login}
+              options={{ headerTitle: Header }}
+            />
+            <Tab.Screen
+              name="Signup"
+              component={Signup}
+              options={{ headerTitle: Header }}
+            />
+            <Tab.Screen
+              name="About"
+              component={About}
+              options={{ headerTitle: Header }}
+            />
+          </Tab.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
