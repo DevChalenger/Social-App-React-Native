@@ -1,14 +1,23 @@
-import { Button, StyleSheet, Text, View } from "react-native";
-import { gap } from "../../utils/Style-Variable";
+import {
+  Button,
+  Pressable,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+
 import Field from "../Field";
 
-import { useForm } from "react-hook-form";
+import { Primary_Color } from "../../utils/Style-Variable";
+
+import { useForm, Controller } from "react-hook-form";
 
 const Form = () => {
   const {
-    register,
     handleSubmit,
-    reset,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -17,30 +26,74 @@ const Form = () => {
   };
   return (
     <View style={styles.form}>
-      <Field label={"User Name"} type={"username-new"} name={""} />
-      <Field label={"Email"} type={"email"} name={""} />
-      <Field label={"Password"} type={"password"} name={""} />
+      <Field
+        label={"User Name"}
+        type={"username-new"}
+        name={"username"}
+        control={control}
+        errors={errors}
+      />
+      <Field
+        label={"Email"}
+        type={"email"}
+        name={"email"}
+        control={control}
+        errors={errors}
+      />
+      <Field
+        label={"Password"}
+        type={"password"}
+        name={"password"}
+        control={control}
+        errors={errors}
+      />
       <Field
         label={"Confirm Password"}
         type={"password"}
         name={"confirm-password"}
+        control={control}
+        errors={errors}
       />
-      <Button title="Send" />
+      <View style={styles.button}>
+        <Button
+          color={Primary_Color}
+          disabled={errors ? false : true}
+          title={"Submit"}
+          onPress={handleSubmit(submitForm)}
+        />
+      </View>
     </View>
   );
 };
+
+const gap = 10;
 
 const styles = StyleSheet.create({
   form: {
     display: "flex",
     flexDirection: "column",
-    paddingVertical: 25,
-    paddingHorizontal: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 25,
     marginVertical: -(gap / 2),
     marginHorizontal: -(gap / 2),
+    borderRadius: 12.5,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+
+    elevation: 5,
   },
   button: {
-    marginTop: 20,
+    marginVertical: 10,
+    overflow: "hidden",
+    borderRadius: 40,
+  },
+  text: {
+    textAlign: "center",
   },
 });
 
