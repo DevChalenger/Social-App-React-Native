@@ -8,13 +8,9 @@ import {
   View,
 } from "react-native";
 
-import { useDispatch } from "react-redux";
-
 import Field from "../Field";
 
 import { Primary_Color } from "../../utils/Style-Variable";
-
-import { createUser } from "../../../redux/actions/user";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -25,20 +21,11 @@ const Form = () => {
     formState: { errors },
   } = useForm();
 
-  const dispatch = useDispatch();
-
   const submitForm = (data) => {
     console.log(data);
   };
   return (
     <View style={styles.form}>
-      <Field
-        label={"User Name"}
-        type={"username-new"}
-        name={"username"}
-        control={control}
-        errors={errors}
-      />
       <Field
         label={"Email"}
         type={"email"}
@@ -53,13 +40,7 @@ const Form = () => {
         control={control}
         errors={errors}
       />
-      <Field
-        label={"Confirm Password"}
-        type={"password"}
-        name={"confirm-password"}
-        control={control}
-        errors={errors}
-      />
+
       <View style={styles.button}>
         <Button
           color={Primary_Color}

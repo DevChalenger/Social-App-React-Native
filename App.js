@@ -4,20 +4,24 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { Image, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import About from "./src/screens/About";
-import Home from "./src/screens/Home";
-import Login from "./src/screens/Sign/Login";
-import Signup from "./src/screens/Sign/Signup";
 
 import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
-import Header from "./src/components/Header";
 
-const Tab = createBottomTabNavigator();
+import Header from "./src/components/Header";
+import { createStackNavigator } from "@react-navigation/stack";
+import MainContainer from "./src/MainContainer";
+import LoginContainer from "./src/LoginContainer";
+import {
+  createDrawerNavigator,
+  DrawerToggleButton,
+} from "@react-navigation/drawer";
+import { Button, IconButton } from "react-native-paper";
+import DrawerScreen from "./src/navigator/Drawer";
+
+const Drawer = createDrawerNavigator();
 const persistor = persistStore(store);
 
 const App = () => {
@@ -25,33 +29,47 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              tabBarActiveTintColor: "#e91e63",
-            }}
+          <Drawer.Navigator
+            initialRouteName="MainContainer"
+            screenOptions={({ navigation }) => ({
+              headerLeft: (props) => <Header navigation={navigation} />,
+            })}
+            drawerContent={(props) => <DrawerScreen {...props} />}
           >
-            <Tab.Screen
-              name="Home"
-              component={Home}
-              options={{ headerTitle: Header }}
+            <Drawer.Screen
+              name="MainContainer"
+              component={MainContainer}
+              options={({ navigation }) => ({
+                headerStyle: {
+                  backgroundColor: "#14213D",
+                },
+
+                headerTitle: () => {
+                  return (
+                    <Text
+                      style={{
+                        fontWeight: "700",
+                        fontSize: 18,
+                        color: "white",
+                      }}
+                    >
+                      Social App
+                    </Text>
+                  );
+                },
+              })}
             />
-            <Tab.Screen
-              name="Login"
-              component={Login}
-              options={{ headerTitle: Header }}
+            <Drawer.Screen
+              name="LoginScreen"
+              component={LoginContainer}
+              options={{
+                headerTintColor: "white",
+                headerStyle: {
+                  backgroundColor: "#14213D",
+                },
+              }}
             />
-            <Tab.Screen
-              name="Signup"
-              component={Signup}
-              options={{ headerTitle: Header }}
-            />
-            <Tab.Screen
-              name="About"
-              component={About}
-              options={{ headerTitle: Header }}
-            />
-          </Tab.Navigator>
+          </Drawer.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>

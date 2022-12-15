@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Controller } from "react-hook-form";
 import { Correct_Color, Error_Color } from "../utils/Style-Variable";
 
-const Field = ({ control, name, label, errors }) => {
+const Field = ({ control, name, label, type, errors }) => {
   return (
     <View style={styles.formControl}>
       <Text style={styles.label}>{label}</Text>
@@ -23,6 +23,8 @@ const Field = ({ control, name, label, errors }) => {
               styles.input,
               errors[name] ? styles.errorField : styles.correctField,
             ]}
+            secureTextEntry={type === "password" ? true : false}
+            autoComplete={type}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
